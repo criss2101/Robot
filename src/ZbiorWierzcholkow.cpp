@@ -1,0 +1,2 @@
+#include "ZbiorWierzcholkow.hh"
+

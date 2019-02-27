@@ -1,0 +1,38 @@
+#include "Prostokat.hh"
+#include <math.h>
+
+Prostokat::Prostokat()
+{
+  Pkt[0][0]=1;
+  Pkt[0][1]=1;
+
+  Pkt[1][0]=5;
+  Pkt[1][1]=1;
+
+  Pkt[2][0]=5;
+  Pkt[2][1]=4;
+
+  Pkt[3][0]=1;
+  Pkt[3][1]=4;
+}
+
+
+ostream& operator <<(ostream &Strm , const Prostokat &Pr){
+for(int i=0 ; i<4 ; i++)
+  Strm<<Pr[i]<<endl;
+
+  return Strm;
+}
+void Prostokat::Przesun(const Wektor2D& Wek)
+{
+  for(int i=0; i<4; i++)
+    Pkt[i]=Pkt[i]+Wek;
+}
+
+void Prostokat::obrot(const Macierz2x2 &mac)
+{
+  for(int i=0; i<4 ; i++)
+  Pkt[i]=Pkt[i]*mac;
+  
+}
+

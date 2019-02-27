@@ -1,0 +1,166 @@
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include "Wektor2D.hh"
+#include "Macierz2x2.hh"
+#include "lacze_do_gnuplota.hh"
+#include "Robot.hh"
+#include "ObiektGraficzny.hh"
+#include "Sciezka.hh"
+#include "Scena.hh"
+
+
+
+using namespace std;
+
+#define DL_KROTKI_BOK 100
+#define DL_DRUGI_BOK 150
+
+
+void menuW(Scena &scena)
+{  cout<<endl<<endl;
+  cout<<"Twoj aktualny robot ma wspolrzene: "<<endl<<endl;
+  scena.wyswietlAktywnego();
+  cout<<endl;
+    cout<<"\nJaki jest Twoj wybor?\n"
+        <<"o - obrot robota o zadany kat\n"
+        <<"p - jazda na wprost\n"
+        <<"m - wyswietl menu\n"
+        <<"z - zmiana robota\n"
+        <<"g - dodaj nowa przeszkode lub robota\n"
+        <<"s - zmiana predkosc aktywnego robota\n"
+        <<"v - przesun cala scene o wektor\n"
+        <<"r - powrot do poczatkowej sceny\n"
+        <<"k - koniec programu\n";
+
+}
+
+int menuSwitchowe()
+{ char znak;
+  Scena scena;
+  Macierz2x2 mac;
+  Wektor2D poprzednia;
+  Wektor2D przechowanie;
+ 
+    scena.Lacze.DodajNazwePliku("obiekt.dat",PzG::RR_Ciagly,2);
+    //scena.Lacze.DodajNazwePliku("obiekt.dat",PzG::RR_Punktowy,2);
+    scena.Lacze.ZmienTrybRys(PzG::TR_2D);
+    
+
+    menuW(scena);
+    scena.rysuj();
+    do
+    {
+
+        cin >> znak;
+        switch(znak)
+        {
+
+       case 'o':
+            double stp;
+
+            cout<<"O ile stopni obrocic ?\n";
+            cin>>stp;
+            scena.obrot(stp,mac);
+	     menuW(scena);
+            break;
+
+       case 'g':
+	 scena.Dodaj();
+
+	 menuW(scena);
+            break;
+
+	case 'z':
+	  int wybor;
+	  
+            cout<<"Ktorego robota wybierasz?\n";
+            scena.wyswietlInne();
+	    cin>>wybor;
+            scena.zmianaRobota(wybor);
+            menuW(scena);
+            break;
+
+       	case 's':
+	  double predkosc;
+	  
+            cout<<"Na jaka predkosc zmienic ?\n";
+	    cin>>predkosc;
+            scena.zmienPr(predkosc);
+            menuW(scena);
+            break;
+
+
+
+        case 'p':
+            double ile;
+
+            cout<<"o jaka dlugosc ?\n";
+            cin>>ile;
+            scena.jedz(ile);
+
+            menuW(scena);
+
+            break;
+
+
+        case 'v':
+	    
+            cout<<"O jaki wektor przesunac scene ?\n"<<endl;
+            cin>>przechowanie; /* dodaje o jaki wektor ma byc przesunieta scena */
+            ObiektGraficzny::Trans_Glb=ObiektGraficzny::Trans_Glb+przechowanie;
+	    
+	    scena.rysuj();
+	    //~przechowanie; /* zeruje wektor */
+            menuW(scena);
+            break;
+    
+
+      case 'r': /* Powrot do poprzedniego ulozenia sceny */
+        
+	
+	~ObiektGraficzny::Trans_Glb; /* zeruje wektor */
+            scena.rysuj();
+            menuW(scena);
+            
+	    break;
+   
+
+	case 'm':
+
+            menuW(scena);
+
+            break;
+
+
+        case 'k':
+            break;
+
+
+
+
+
+
+        }
+
+    }
+    
+    while(znak!='k');
+    return 0;
+
+}
+
+int main()
+{
+  
+  
+  menuSwitchowe();
+
+  
+   
+    return 0;
+
+}
+
+
+

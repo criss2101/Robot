@@ -1,0 +1,8 @@
+#include "ZbiorWierzcholkow.hh"
+
+ZbiorWierzcholkow operator +(ZbiorWierzcholkow &zbior, Wektor2D &wek){
+  for(int i=0;i<zbior.pojemnik.size();i++){
+    zbior.pojemnik[i]=zbior.pojemnik[i]+wek;
+  }
+    return zbior;
+  }

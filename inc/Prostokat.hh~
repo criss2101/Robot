@@ -1,0 +1,32 @@
+#ifndef PROSTOKAT_HH
+#define PROSTOKAT_HH
+#include "Wektor2D.hh"
+#include <iostream>
+#include "ObiektGraficzny.hh"
+using namespace std;
+
+
+class Prostokat :public ObiektGraficzny {
+
+  
+
+public:
+  Prostokat();
+   
+  Wektor2D& operator[ ] (int Ind) { return Noga[Ind]; }
+  Wektor2D operator[ ] (int Ind) const { return Noga[Ind]; }
+  double operator( ) (int wierzcholek, int wspolrzedna) const { return Noga[wierzcholek][wspolrzedna]; }
+  double& operator( ) (int wierzcholek, int wspolrzedna) { return Noga[wierzcholek][wspolrzedna]; }
+  
+
+  void Przesun(const Wektor2D& Wek);
+  void obrot(const Macierz2x2 &mac);
+
+
+};
+
+
+
+ostream& operator << (ostream &Strm,const Prostokat &Pr);
+
+#endif

@@ -1,0 +1,89 @@
+#include "Robot.hh"
+#include <cmath>
+
+
+Robot::Robot(Wektor2D lokalizacja)
+{
+    predkosc=10;
+    double wielkosc=5;
+    kierunek=Wektor2D(1,0);
+    polozenie=(Wektor2D(50,50)+lokalizacja);  /* Polozenie aktualne robota */
+    poczatkowe=(Wektor2D(50,50)+lokalizacja); /* Polozenie poczatkowe robota */
+    pocz_sciezki=0;
+
+    Wierz_Lok.pojemnik.push_back(Wektor2D(0,0));
+    Wierz_Lok.pojemnik.push_back(Wektor2D(2,0));
+    Wierz_Lok.pojemnik.push_back(Wektor2D(1,2));
+    Wierz_Lok.pojemnik.push_back(Wektor2D(-2,2));
+    Wierz_Lok.pojemnik.push_back(Wektor2D(-2,-2));
+    Wierz_Lok.pojemnik.push_back(Wektor2D(1,-2));
+    Wierz_Lok.pojemnik.push_back(Wektor2D(2,0));
+    Wierz_Lok.pojemnik.push_back(Wektor2D(0,0));
+
+    for(int i = 0; i <8 ; i++) /* Powiekszam robota */
+        Wierz_Lok.pojemnik[i]=wielkosc*Wierz_Lok.pojemnik[i];
+  
+    for(int i = 0; i < 8; i++)
+      Wierz_Glb.pojemnik.push_back(Wierz_Lok.pojemnik[i]+polozenie);
+
+}
+
+ostream& operator << (ostream &Strm, const Robot &Rb)
+{
+  Strm<<Rb.sciezka;   
+    for(unsigned int i=0; i<Rb.Wierz_Lok.pojemnik.size(); i++)
+      Strm<<(Rb.Wierz_Lok.pojemnik[i]+Rb.polozenie+ObiektGraficzny::Trans_Glb)<<endl;
+    return Strm;
+
+}
+
+
+void Robot::LokDoGlb()
+{
+
+    for(int i = 0; i < 8; i++)
+        Wierz_Glb.pojemnik[i]=Wierz_Lok.pojemnik[i]+polozenie;
+
+}
+
+
+
+void Robot::jedz(double ilee)
+{
+    Wektor2D jazda;
+    if(pocz_sciezki<1)
+      {
+      slad();
+      pocz_sciezki=5;
+      }
+
+    
+    jazda[0]=ilee*kierunek[0];
+    jazda[1]=ilee*kierunek[1];
+    polozenie=polozenie+jazda;
+
+    slad();
+}
+
+
+void Robot::obrot(const Macierz2x2 &mac)
+{
+
+    for(int i=0; i<8; i++)
+        Wierz_Lok.pojemnik[i]=Wierz_Lok.pojemnik[i]*mac;
+
+    kierunek=kierunek*mac;
+
+}
+
+
+void Robot::slad()
+{
+  Wektor2D przekaz=polozenie;
+  sciezka.Slad(przekaz);
+
+}
+
+
+
+		 

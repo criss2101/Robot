@@ -1,0 +1,35 @@
+#ifndef ZBIORWIERZCHOLKOW_HH
+#define ZBIORWIERZCHOLKOW_HH
+#include "Wektor2D.hh"
+#include <vector>
+using namespace std;
+
+class ZbiorWierzcholkow
+{
+public:
+    vector <Wektor2D> pojemnik;
+
+
+    ZbiorWierzcholkow()
+    {
+        pojemnik.reserve(50);
+    }
+
+    Wektor2D operator [ ](int Ind) const
+    {
+        return pojemnik[Ind];
+    }
+    Wektor2D& operator [ ](int Ind)
+    {
+        return pojemnik[Ind];
+    }
+
+};
+
+
+
+
+
+
+
+#endif
